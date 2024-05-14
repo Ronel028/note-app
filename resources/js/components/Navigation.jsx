@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import { FaBookBookmark } from "react-icons/fa6";
 
 const Navigation = ({ user }) => {
@@ -26,7 +27,9 @@ const Navigation = ({ user }) => {
                             </a>
                             </li>
                             <li><a>Settings</a></li>
-                            <li><a>Logout</a></li>
+                            <li>
+                                <Link href="auth/logout" method="delete">Logout</Link>
+                            </li>
                         </ul>
                         </div>
                     </div>

@@ -41,6 +41,17 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
+    // LOGOUT USER
+    public function logout(Request $request): RedirectResponse
+    {
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
     // SAVE NEW USER
     public function saveNewUser(Request $request)
     {

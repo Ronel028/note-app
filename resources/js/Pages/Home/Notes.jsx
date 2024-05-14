@@ -126,7 +126,7 @@ const Notes = (props) => {
         </div>
 
         {/* CREATE MODAL START */}
-        <dialog open={showCreateModal} className="modal bg-white bg-opacity-40">
+        <dialog open={showCreateModal} className="modal bg-white bg-opacity-60">
             <div className="modal-box w-11/12 max-w-5xl border border-accent">
                 <h3 className="font-bold text-lg mb-4">New Notes</h3>
                 <div className="">
@@ -152,7 +152,7 @@ const Notes = (props) => {
         {/* CREATE MODAL END */}
 
          {/* EDIT MODAL START */}
-         <dialog open={showEditModal} className="modal bg-white bg-opacity-40">
+         <dialog open={showEditModal} className="modal bg-white bg-opacity-60">
             <div className="modal-box w-11/12 max-w-5xl border border-accent">
                 <h3 className="font-bold text-lg mb-4">New Notes</h3>
                 <div className="">
@@ -176,7 +176,7 @@ const Notes = (props) => {
         {/* EDIT MODAL END */}
 
         {/* view MODAL START */}
-        <dialog open={showViewModal} className="modal bg-white bg-opacity-40 ">
+        <dialog open={showViewModal} className="modal bg-white bg-opacity-60 ">
             <div className="modal-box w-11/12 max-w-5xl border border-accent">
                 {/* <h3 className="font-bold text-lg mb-4">New Notes</h3> */}
                 <div className="">

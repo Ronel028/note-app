@@ -18,4 +18,5 @@ Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
 Route::prefix('auth')->group(function () {
     Route::post('/signup', [AuthController::class, 'saveNewUser'])->name('signup');
     Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
+    Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
 });
