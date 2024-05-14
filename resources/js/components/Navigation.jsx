@@ -19,7 +19,7 @@ const Navigation = ({ user }) => {
                                 <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
                             </div>
                         </div>
-                        <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                        <ul tabIndex={0} className="mt-3 z-[1] border border-accent p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
                             <li>
                             <a className="justify-between">
                                 Profile
@@ -28,7 +28,7 @@ const Navigation = ({ user }) => {
                             </li>
                             <li><a>Settings</a></li>
                             <li>
-                                <Link href="auth/logout" method="delete">Logout</Link>
+                                <Link href="auth/logout" method="delete" as="button">Logout</Link>
                             </li>
                         </ul>
                         </div>

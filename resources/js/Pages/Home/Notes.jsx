@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm, router } from "@inertiajs/react";
 import ReactQuill from "react-quill";
+import moment from "moment";
 import axios from "../../utils/apiService/axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +11,14 @@ import empty from "../../assets/empty.png";
 import Navigation from "../../components/Navigation";
 import Button from "../../components/forms/Button";
 import Input from "../../components/forms/Input";
+
+function limitText(text, maxLength) {
+        if (text.length > maxLength) {
+            return text.slice(0, maxLength) + '...';
+        }
+        return text;
+    }
+
 const Notes = (props) => {
 
     const [showCreateModal, setShowCreateModal] = useState(false)
@@ -39,7 +48,8 @@ const Notes = (props) => {
     const update = (e) => {
         e.preventDefault();
         router.post(`/update`, notesContent, {
-            onSuccess: () => {
+            onSuccess: (response) => {
+                console.log(response);
                 reset('id','title', 'content')
                 setShowEditModal(false);
                 toast.success("Notes Updated.");
@@ -60,6 +70,12 @@ const Notes = (props) => {
     }
 
     const fetchEdit = async(id) => {
+        setNotesContent({
+            ...notesContent,
+            id: '',
+            title: '',
+            content: ''
+        })
         let response = await axios.get(`/fetch/${id}`);
         setNotesContent({
             ...notesContent,
@@ -74,13 +90,6 @@ const Notes = (props) => {
     // useEffect(() => {
     //     console.log(props);
     // }, [])
-
-    function limitText(text, maxLength) {
-        if (text.length > maxLength) {
-            return text.slice(0, maxLength) + '...';
-        }
-        return text;
-    }
 
     return (
         <>
@@ -105,7 +114,12 @@ const Notes = (props) => {
                                     <div key={note.id} className="card rounded w-full bg-base-100 border border-accent shadow-xl">
                                         <div className="card-body">
                                             <h2 className="card-title">{note.title}</h2>
-                                            <div dangerouslySetInnerHTML={{ __html: limitText(note.content, 68) }} />
+                                            <div className="badge badge-neutral text-xs rounded">
+                                                {moment(note.created_at).format('LL')}
+                                            </div>
+                                            <div className="truncate h-5 w-full line-clamp-1  mb-3">
+                                                <div className="" dangerouslySetInnerHTML={{ __html: note.content }} />
+                                            </div>
                                             <div className="card-actions justify-end">
                                                 <Button type="button" onClick={() => fetchEdit(note.id)} className=" btn-primary">Edit</Button>
                                                 <Button type="button" onClick={() => fetch(note.id)} className=" btn-accent">View</Button>

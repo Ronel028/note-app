@@ -13,6 +13,8 @@ class NotesController extends Controller
 {
     public function index()
     {
+        // $notes = Notes::where('user_id', Auth::user()->id)->get();
+        // dd($notes);
         return Inertia::render('Home/Notes', [
             'auth' => Auth::user(),
             'notes' => Notes::where('user_id', Auth::user()->id)->get()
@@ -62,7 +64,6 @@ class NotesController extends Controller
     public function fetch(Request $request)
     {
         $notes = Notes::find($request->id);
-
         return response()->json($notes);
     }
 }
