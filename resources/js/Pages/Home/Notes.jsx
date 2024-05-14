@@ -12,13 +12,6 @@ import Navigation from "../../components/Navigation";
 import Button from "../../components/forms/Button";
 import Input from "../../components/forms/Input";
 
-function limitText(text, maxLength) {
-        if (text.length > maxLength) {
-            return text.slice(0, maxLength) + '...';
-        }
-        return text;
-    }
-
 const Notes = (props) => {
 
     const [showCreateModal, setShowCreateModal] = useState(false)
@@ -58,6 +51,12 @@ const Notes = (props) => {
     }
 
     const fetch = async(id) => {
+        setNotesContent({
+            ...notesContent,
+            id: '',
+            title: '',
+            content: ''
+        })
         let response = await axios.get(`/fetch/${id}`);
         setNotesContent({
             ...notesContent,
@@ -87,9 +86,15 @@ const Notes = (props) => {
       
     }
 
-    // useEffect(() => {
-    //     console.log(props);
-    // }, [])
+    const toolbarOptions = {
+        toolbar: [
+            ['bold', 'italic', 'underline', 'strike'], 
+            ['code-block'],
+            ['link'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+            [{ 'font': ["Teachers"] }],
+        ]
+    } 
 
     return (
         <>
@@ -151,7 +156,13 @@ const Notes = (props) => {
                                 <p className=" text-red-500 italic text-xs mt-1">{errors.title}</p>
                             </div>
                             <div>
-                                <ReactQuill theme="snow" value={data.content} onChange={e =>  setData('content', e)} placeholder="Type your new ideas here..." />
+                                <ReactQuill 
+                                    modules={toolbarOptions}
+                                    theme="snow" 
+                                    value={data.content} 
+                                    onChange={e =>  setData('content', e)} 
+                                    placeholder="Type your new ideas here..." 
+                                />
                                 <p className=" text-red-500 italic text-xs mt-1">{errors.content}</p>
                             </div>
                         </div>
@@ -176,7 +187,7 @@ const Notes = (props) => {
                                 <Input type="text"  placeholder="Title" value={notesContent.title} onChange={(e) => setNotesContent({ ...notesContent, title: e.target.value })} />
                             </div>
                             <div>
-                                <ReactQuill theme="snow" value={notesContent.content} onChange={(e) => setNotesContent({ ...notesContent, content: e})} placeholder="Type your new ideas here..." />
+                                <ReactQuill  modules={toolbarOptions} theme="snow" value={notesContent.content} onChange={(e) => setNotesContent({ ...notesContent, content: e})} placeholder="Type your new ideas here..." />
                             </div>
                         </div>
                         <div className=" flex items-center justify-end gap-2">
@@ -195,7 +206,15 @@ const Notes = (props) => {
                 <div className="">
                     <main>
                         <h1 className=" text-xl font-semibold capitalize pb-3 mb-3 border-b">{notesContent.title}</h1>
-                        <div dangerouslySetInnerHTML={{ __html: notesContent.content }} />
+                        {/* <div className="ql-editor" dangerouslySetInnerHTML={{ __html: notesContent.content }} /> */}
+                        <div className=" mb-2">
+                            <ReactQuill 
+                                    modules={{ toolbar:false }}
+                                    value={notesContent.content}
+                                    readOnly={true}
+                                    placeholder="Type your new ideas here..." 
+                                />
+                        </div>
                         <div className=" flex items-center justify-end gap-2">
                             <Button type="button" onClick={() => setShowViewModal(false)} className="btn-error">Close</Button>
                         </div>
