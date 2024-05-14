@@ -168,7 +168,7 @@ const Notes = (props) => {
          {/* EDIT MODAL START */}
          <dialog open={showEditModal} className="modal bg-white bg-opacity-60">
             <div className="modal-box w-11/12 max-w-5xl border border-accent">
-                <h3 className="font-bold text-lg mb-4">New Notes</h3>
+                <h3 className="font-bold text-lg mb-4">Edit Notes</h3>
                 <div className="">
                     <form onSubmit={update}>
                         <div className=" mb-3">
@@ -192,7 +192,6 @@ const Notes = (props) => {
         {/* view MODAL START */}
         <dialog open={showViewModal} className="modal bg-white bg-opacity-60 ">
             <div className="modal-box w-11/12 max-w-5xl border border-accent">
-                {/* <h3 className="font-bold text-lg mb-4">New Notes</h3> */}
                 <div className="">
                     <main>
                         <h1 className=" text-xl font-semibold capitalize pb-3 mb-3 border-b">{notesContent.title}</h1>
