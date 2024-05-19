@@ -6,6 +6,10 @@ body {
     font-family: "Teachers", sans-serif;
 }
 
-/* .ql-editor{
-    @apply input input-bordered input-accent rounded;
+.ql-editor {
+    font-family: "Teachers", sans-serif;
+}
+
+/* pre.ql-syntax{
+    @apply bg-black text-white;
 } */

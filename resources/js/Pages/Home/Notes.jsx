@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm, router } from "@inertiajs/react";
 import ReactQuill from "react-quill";
 import moment from "moment";
@@ -13,7 +13,6 @@ import Button from "../../components/forms/Button";
 import Input from "../../components/forms/Input";
 
 const Notes = (props) => {
-
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showViewModal, setShowViewModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
@@ -92,9 +91,13 @@ const Notes = (props) => {
             ['code-block'],
             ['link'],
             [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-            [{ 'font': ["Teachers"] }],
+            [{ 'color': [] }, { 'background': [] }],
         ]
     } 
+
+    useEffect(() => {
+        console.log(props.notes)
+    }, [])
 
     return (
         <>
@@ -126,8 +129,8 @@ const Notes = (props) => {
                                                 <div className="" dangerouslySetInnerHTML={{ __html: note.content }} />
                                             </div>
                                             <div className="card-actions justify-end">
-                                                <Button type="button" onClick={() => fetchEdit(note.id)} className=" btn-primary">Edit</Button>
-                                                <Button type="button" onClick={() => fetch(note.id)} className=" btn-accent">View</Button>
+                                                <button type="button" onClick={() => fetchEdit(note.id)} className="btn rounded btn-xs btn-primary">Edit</button>
+                                                <button type="button" onClick={() => fetch(note.id)} className="btn btn-xs rounded btn-accent">View</button>
                                             </div>
                                         </div>
                                     </div>
@@ -156,7 +159,7 @@ const Notes = (props) => {
                                 <p className=" text-red-500 italic text-xs mt-1">{errors.title}</p>
                             </div>
                             <div>
-                                <ReactQuill 
+                                <ReactQuill
                                     modules={toolbarOptions}
                                     theme="snow" 
                                     value={data.content} 
