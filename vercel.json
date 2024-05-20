@@ -5,12 +5,13 @@
         "api/index.php": { "runtime": "vercel-php@0.6.0" }
     },
     "routes": [
-        { "src": "/build/(.*)", "dest": "/public/build/" },
         { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
+        "APP_URL": "https://note-qsmakfwbd-ronel028s-projects.vercel.app",
+        "APP_KEY": "base64:TsHJgcx5vFzGk0mmRG62eYr14EiH/zJGJkZRkUL9CsU=",
  
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
@@ -21,6 +22,6 @@
  
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "SESSION_DRIVER": "cookie"
+        "SESSION_DRIVER": "database"
     }
 }
