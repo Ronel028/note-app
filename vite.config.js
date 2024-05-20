@@ -3,6 +3,7 @@ import laravel from 'laravel-vite-plugin';
 import viteReact from '@vitejs/plugin-react';
 
 export default defineConfig({
+    base: '/',
     plugins: [
         viteReact(),
         laravel({
