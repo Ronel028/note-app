@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-quill/dist/quill.snow.css';
 import { LuPencilLine } from "react-icons/lu";
-import empty from "../../assets/empty.png";
+import empty from "../../../../public/build/assets/empty-KROdEknL.png";
 import Navigation from "../../components/Navigation";
 import Button from "../../components/forms/Button";
 import Input from "../../components/forms/Input";
