@@ -33,7 +33,8 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('notes.index');
+            // return redirect()->intended('notes.index');
+            return to_route('notes.index');
         }
 
         return back()->withErrors([
@@ -70,6 +71,7 @@ class AuthController extends Controller
 
         if ($user->save()) {
             DB::commit();
+            return to_route('login');
         } else {
             DB::rollBack();
         }
