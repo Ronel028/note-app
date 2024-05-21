@@ -34,7 +34,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // return redirect()->intended('notes.index');
-            return to_route('notes.index');
+            return to_route('index');
         }
 
         return back()->withErrors([

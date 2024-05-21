@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [NotesController::class, 'index'])->middleware(['auth'])->name('notes.index');
+Route::get('/', [NotesController::class, 'index'])->middleware(['auth'])->name('index');
 Route::post('/create', [NotesController::class, 'create'])->middleware(['auth'])->name('notes.create');
 Route::get('/fetch/{id}', [NotesController::class, 'fetch'])->middleware(['auth'])->name('notes.fetch');
 Route::post('/update', [NotesController::class, 'update'])->middleware(['auth'])->name('notes.update');
