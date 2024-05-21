@@ -50,7 +50,7 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return to_route('login');
     }
 
     // SAVE NEW USER
