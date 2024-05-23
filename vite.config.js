@@ -3,7 +3,8 @@ import laravel from 'laravel-vite-plugin';
 import viteReact from '@vitejs/plugin-react';
 
 export default defineConfig({
-    base: process.env.NODE_ENV === 'production' ? '/build/' : '/',
+    // base: process.env.NODE_ENV === 'production' ? '/build/' : '/',
+    base: '/',
     plugins: [
         viteReact(),
         laravel({
