@@ -25,6 +25,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
+        "APP_URL":"https://note-app-ten-rouge.vercel.app",
         "APP_KEY": "base64:TsHJgcx5vFzGk0mmRG62eYr14EiH/zJGJkZRkUL9CsU=",
  
         "APP_CONFIG_CACHE": "/tmp/config.php",
