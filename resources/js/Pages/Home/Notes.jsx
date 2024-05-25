@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { useForm, router } from "@inertiajs/react";
 import ReactQuill from "react-quill";
 import moment from "moment";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { CiEdit } from "react-icons/ci";
+import { FaEye } from "react-icons/fa";
 import axios from "../../utils/apiService/axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +19,8 @@ const Notes = (props) => {
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showViewModal, setShowViewModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
+    const [loadingStateView, setLoadingStatesView] = useState({})
+    const [loadingStates, setLoadingStates] = useState({});
     const [notesContent, setNotesContent] = useState({
         id: '',
         title: '',
@@ -26,29 +31,29 @@ const Notes = (props) => {
         content: '',
       })
 
+    // SAVE NEW DATA
     const save = (e) => {
         e.preventDefault();
         post('/create', {
             onSuccess: () => {
-                reset('title', 'content')
                 setShowCreateModal(false);
                 toast.success("New Notes Successful.");
             }
         })
     }
 
+    // SAVE EDIT DATA
     const update = (e) => {
         e.preventDefault();
         router.post(`/update`, notesContent, {
             onSuccess: (response) => {
-                console.log(response);
-                reset('id','title', 'content')
                 setShowEditModal(false);
                 toast.success("Notes Updated.");
             }
         })
     }
 
+    // OPEN MODAL AND FETCH VIEW DATA
     const fetch = async(id) => {
         setNotesContent({
             ...notesContent,
@@ -56,6 +61,10 @@ const Notes = (props) => {
             title: '',
             content: ''
         })
+        setLoadingStatesView({
+            ...loadingStateView,
+            [id]: true
+        });
         let response = await axios.get(`/fetch/${id}`);
         setNotesContent({
             ...notesContent,
@@ -64,9 +73,13 @@ const Notes = (props) => {
             content: response.data.content,
         })
         setShowViewModal(true)
-      
+        setLoadingStatesView({
+            ...loadingStateView,
+            [id]: false
+        });
     }
 
+    // OPEN MODAL AND FETCH EDIT DATA
     const fetchEdit = async(id) => {
         setNotesContent({
             ...notesContent,
@@ -74,6 +87,10 @@ const Notes = (props) => {
             title: '',
             content: ''
         })
+        setLoadingStates({
+            ...loadingStates,
+            [id]: true
+        });
         let response = await axios.get(`/fetch/${id}`);
         setNotesContent({
             ...notesContent,
@@ -82,9 +99,13 @@ const Notes = (props) => {
             content: response.data.content,
         })
         setShowEditModal(true)
-      
+        setLoadingStates({
+            ...loadingStates,
+            [id]: false
+        });
     }
 
+    // REACT QUILL EDITOR TOOLBAR CONFIGURATION
     const toolbarOptions = {
         toolbar: [
             ['bold', 'italic', 'underline', 'strike'], 
@@ -95,9 +116,11 @@ const Notes = (props) => {
         ]
     } 
 
-    useEffect(() => {
-        console.log(props.notes)
-    }, [])
+    // OPEN CREATE MODAL
+    const openCreateModal = () => {
+        reset('title', 'content')
+        setShowCreateModal(true)
+    }
 
     return (
         <>
@@ -111,7 +134,7 @@ const Notes = (props) => {
             <main className=" mt-3">
                 <div className="max-w-[1300px] w-[95%] mx-auto">
                     <div className=" flex items-center justify-end mb-3">
-                        <Button onClick={() => setShowCreateModal(true)} className="btn-accent"><LuPencilLine />Create</Button>
+                        <Button onClick={openCreateModal} className="btn-accent"><LuPencilLine />Create</Button>
                     </div>
 
                     {
@@ -125,12 +148,18 @@ const Notes = (props) => {
                                             <div className="badge badge-neutral text-xs rounded">
                                                 {moment(note.created_at).format('LL')}
                                             </div>
-                                            <div className="truncate h-5 w-full line-clamp-1  mb-3">
+                                            <div className="truncate h-6 w-full line-clamp-1  mb-3">
                                                 <div className="" dangerouslySetInnerHTML={{ __html: note.content }} />
                                             </div>
                                             <div className="card-actions justify-end">
-                                                <button type="button" onClick={() => fetchEdit(note.id)} className="btn rounded btn-xs btn-primary">Edit</button>
-                                                <button type="button" onClick={() => fetch(note.id)} className="btn btn-xs rounded btn-accent">View</button>
+                                                <button type="button" id={note.id} onClick={(e) => fetchEdit(note.id)} className="btn rounded btn-xs btn-primary">
+                                                    <CiEdit className={`${loadingStates[note.id] ? 'hidden' : 'block'}`} />
+                                                    <span className={`${loadingStates[note.id] ? 'block' : 'hidden'} loading loading-dots loading-xs`}></span>
+                                                </button>
+                                                <button type="button" onClick={() => fetch(note.id)} className="btn btn-xs rounded btn-accent">
+                                                    <FaEye className={`${loadingStateView[note.id] ? 'hidden' : 'block'}`} />
+                                                    <span className={`${loadingStateView[note.id] ? 'block' : 'hidden'} loading loading-dots loading-xs`}></span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -195,7 +224,7 @@ const Notes = (props) => {
                         </div>
                         <div className=" flex items-center justify-end gap-2">
                             <Button type="button" onClick={() => setShowEditModal(false)} className="btn-error">Close</Button>
-                            <Button type="submit" className="btn-accent">Save</Button>
+                            <Button type="submit" className="btn-accent" disabled={processing}>Save</Button>
                         </div>
                     </form>
                 </div>
