@@ -15,7 +15,7 @@ class NotesController extends Controller
     {
         return Inertia::render('Home/Notes', [
             'auth' => Auth::user(),
-            'notes' => Notes::where('user_id', Auth::user()->id)->get()
+            'notes' => Notes::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(6)
         ]);
     }
 

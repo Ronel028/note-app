@@ -14,6 +14,7 @@ import empty from "../../assets/empty.png";
 import Navigation from "../../components/Navigation";
 import Button from "../../components/forms/Button";
 import Input from "../../components/forms/Input";
+import Pagination from "../../components/Pagination";
 
 const Notes = (props) => {
     const [showCreateModal, setShowCreateModal] = useState(false)
@@ -122,6 +123,10 @@ const Notes = (props) => {
         setShowCreateModal(true)
     }
 
+    useEffect(() => {
+        console.log(props)
+    }, [])
+
     return (
         <>
         <div>
@@ -138,9 +143,9 @@ const Notes = (props) => {
                     </div>
 
                     {
-                        props.notes.length > 0 ?  <div className=" grid grid-cols-3 gap-2">
+                        props.notes.data.length > 0 ?  <div className=" grid grid-cols-3 gap-2">
                         {
-                            props.notes.map(note => {
+                            props.notes.data.map(note => {
                                 return (
                                     <div key={note.id} className="card rounded w-full bg-base-100 border border-accent shadow-xl">
                                         <div className="card-body">
@@ -152,14 +157,18 @@ const Notes = (props) => {
                                                 <div className="" dangerouslySetInnerHTML={{ __html: note.content }} />
                                             </div>
                                             <div className="card-actions justify-end">
-                                                <button type="button" id={note.id} onClick={(e) => fetchEdit(note.id)} className="btn rounded btn-xs btn-primary">
-                                                    <CiEdit className={`${loadingStates[note.id] ? 'hidden' : 'block'}`} />
-                                                    <span className={`${loadingStates[note.id] ? 'block' : 'hidden'} loading loading-dots loading-xs`}></span>
-                                                </button>
-                                                <button type="button" onClick={() => fetch(note.id)} className="btn btn-xs rounded btn-accent">
-                                                    <FaEye className={`${loadingStateView[note.id] ? 'hidden' : 'block'}`} />
-                                                    <span className={`${loadingStateView[note.id] ? 'block' : 'hidden'} loading loading-dots loading-xs`}></span>
-                                                </button>
+                                                <div className="tooltip" data-tip="Edit">
+                                                    <button type="button" id={note.id} onClick={(e) => fetchEdit(note.id)} className="btn rounded btn-xs btn-primary">
+                                                        <CiEdit className={`${loadingStates[note.id] ? 'hidden' : 'block'}`} />
+                                                        <span className={`${loadingStates[note.id] ? 'block' : 'hidden'} loading loading-dots loading-xs`}></span>
+                                                    </button>
+                                                </div>
+                                                <div className="tooltip" data-tip="View">
+                                                    <button type="button" onClick={() => fetch(note.id)} className="btn btn-xs rounded btn-accent">
+                                                        <FaEye className={`${loadingStateView[note.id] ? 'hidden' : 'block'}`} />
+                                                        <span className={`${loadingStateView[note.id] ? 'block' : 'hidden'} loading loading-dots loading-xs`}></span>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +180,9 @@ const Notes = (props) => {
                                 <p className=" text-2xl font-bold">Time to create notes!</p>
                             </div>
                     }
-
+                    <div className=" flex items-center justify-end">
+                        <Pagination class="mt-6" links={props.notes.links} />
+                    </div>
                 </div>
             </main>
         </div>
