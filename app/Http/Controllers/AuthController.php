@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,15 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+
             $request->session()->regenerate();
+
+            UserLog::create([
+                'username' => $request->username,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->header('User-Agent'),
+                'log_type' => 'Login'
+            ]);
 
             return redirect()->intended('/');
         }
@@ -70,6 +79,14 @@ class AuthController extends Controller
 
         if ($user->save()) {
             DB::commit();
+
+            UserLog::create([
+                'username' => $request->username,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->header('User-Agent'),
+                'log_type' => 'Register'
+            ]);
+
             return redirect('/login');
         } else {
             DB::rollBack();
